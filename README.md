@@ -1,6 +1,6 @@
 # ktodo
 
-A new Flutter project.
+My personal todo app.
 
 ## Getting Started
 
