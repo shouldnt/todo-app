@@ -15,35 +15,27 @@ class _TemplateState extends State<Template> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Template'),
-      ),
-      body: ListView.builder(itemBuilder: (BuildContext context, index) {
-        return Row(
-          children: [
-            Container(
-              width: 30,
-              child: Text('${index + 1}.', textAlign: TextAlign.right,),
-              padding: EdgeInsets.only(right: 10)
-            ),
-            Expanded(child: Text('${index + 1} ${template.todoList[index]}'))
-          ]);
-      }, itemCount: template.todoList.length,),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(context: context, builder: (context) => AddTemplateItemPopup()).then((value) {
-            if(value != null) {
-              setState(() {
-                template.todoList.add(value);
-              });
-            }
-          });
-        },
-        tooltip: 'Increment Counter',
-        child: const Icon(Icons.add),
-      ),
-    );
+    if(template.todoList.length == 0) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Icon(Icons.priority_high, color: Colors.grey, size: 80,),
+          Text('No Todo for today', textAlign: TextAlign.center,)
+        ]
+      );
+    }
+    return ListView.builder(itemBuilder: (BuildContext context, index) {
+      return Row(
+        children: [
+          Container(
+            width: 30,
+            child: Text('${index + 1}.', textAlign: TextAlign.right,),
+            padding: EdgeInsets.only(right: 10)
+          ),
+          Expanded(child: Text('${template.todoList[index]}'))
+        ]);
+    }, itemCount: template.todoList.length,);
   }
 }
 

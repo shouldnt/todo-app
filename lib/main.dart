@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ktodo/Routes.dart';
+import 'package:ktodo/screens/Init.dart';
 import 'package:ktodo/screens/Template.dart';
 
 void main() {
@@ -23,7 +25,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: Template()
+      initialRoute: RouteNames.home,
+      routes: routes,
+      home: Init()
     );
   }
 }
