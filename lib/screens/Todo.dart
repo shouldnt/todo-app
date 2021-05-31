@@ -7,6 +7,7 @@ import 'package:ktodo/models/template.dart';
 import 'package:ktodo/models/todo.dart';
 import 'package:ktodo/widgets/AddTemplateItemPopup.dart';
 import 'package:ktodo/widgets/AddTodo.dart';
+import 'package:ktodo/widgets/ConfirmDeleteTodoDialog.dart';
 import 'package:ktodo/widgets/TodoItem.dart';
 
 class Todo extends StatefulWidget {
@@ -67,13 +68,18 @@ class _TodoState extends State<Todo> {
         ],
       ),
       body: ListView.builder(itemBuilder: (BuildContext context, index) {
+        TodoModel todo = todos[index];
         return TodoItem(
-          todos[index],
+          todo,
           onCheckBoxChange: (value) {
-            setCompleted(todos[index], value);
+            setCompleted(todo, value);
           },
-          onDeleteBtnPress: () {
-            deleteTodo(index);
+          onDeleteBtnPress: () async {
+            if(await showDialog<bool>(context: context, builder: (context) {
+              return ConfirmDeleteTodo(todo);
+            })) {
+              deleteTodo(index);
+            }
           },
         );
       }, itemCount: todos.length,),
