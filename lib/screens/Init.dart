@@ -5,6 +5,7 @@ import 'package:ktodo/shared/app.dart';
 import 'package:ktodo/widgets/AddTemplateItemPopup.dart';
 
 import 'Template.dart';
+import 'Todo.dart';
 
 class Init extends StatefulWidget {
   @override
@@ -30,8 +31,8 @@ class _InitState extends State<Init> {
     switch(index) {
       case 0:
         return {
-          "widget": new Template(),
-          "title": 'Template'
+          "widget": new Todo(),
+          "title": 'Todo'
         };
         break;
       default:
@@ -51,10 +52,7 @@ class _InitState extends State<Init> {
       );
     }
     Map<String, dynamic> view  = getView(currentIndex);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(view["title"]),
-      ),
+    return SafeArea(child: Scaffold(
       body: Container(
         child: view["widget"]
       ),
@@ -79,6 +77,6 @@ class _InitState extends State<Init> {
         },
 
       ),
-    );
+    ));
   }
 }

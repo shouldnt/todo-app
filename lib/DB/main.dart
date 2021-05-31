@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 Future<Database> getDb () async {
@@ -8,9 +10,10 @@ Future<Database> getDb () async {
     join(await getDatabasesPath(), 'todo.db'),
 // When the database is first created, create a table to store dogs.
     onCreate: (db, version) {
+      log('oncreate');
 // Run the CREATE TABLE statement on the database.
       db.execute(
-        'CREATE TABLE templates(id INTEGER PRIMARY KEY, name TEXT, description TEXT)',
+        'CREATE TABLE templates(id INTEGER PRIMARY KEY, name TEXT, description TEXT, deleted INTEGER)',
       );
       db.execute(
         'CREATE TABLE todos(id INTEGER PRIMARY KEY,  description TEXT, completed INTEGER, created_at TExt)',
