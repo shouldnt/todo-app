@@ -12,3 +12,9 @@ My personal todo app.
 - [ ] report completed percentage by date range
 A few resources to get you started if this is your first Flutter project:
 
+
+## References
+
+[sqlite data type](https://www.sqlite.org/datatype3.html)
+[flutter datetime](https://api.flutter.dev/flutter/dart-core/DateTime-class.html)
+
