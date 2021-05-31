@@ -2,10 +2,12 @@
 
 My personal todo app.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
-
+- [x] Add todo (with created at is today)
+- [x] Delete todo
+- [x] udpate completed
+- [ ] create multiple todo with template
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
