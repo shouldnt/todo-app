@@ -61,7 +61,7 @@ class _TodoState extends State<Todo> {
             }
             todo = await provider.create(todo);
             setState(() {
-              todos.add(todo);
+              todos.insert(0, todo);
             });
           }
           )

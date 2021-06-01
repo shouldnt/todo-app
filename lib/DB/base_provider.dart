@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
+
 import 'package:ktodo/constants.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,6 +11,7 @@ class BaseProvider {
 
   open() async {
     _path = join(await getDatabasesPath(), DB_NAME);
+    log(_path);
     db = await openDatabase(
       _path,
       onCreate: (db, int version) {

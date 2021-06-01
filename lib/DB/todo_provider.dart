@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:ktodo/DB/base_provider.dart';
 import 'package:ktodo/constants.dart';
 import 'package:ktodo/models/todo.dart';
@@ -10,8 +11,15 @@ class TodoProvider extends BaseProvider {
   }
 
   Future<List<TodoModel>> getTodoByDate(DateTime date) async {
+    String todayFormat = DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: 1)));
     try {
-      List<Map> maps = await db.query(tableTodo, where: "created_at = ?", whereArgs: [dateDbFormat(date)]);
+      // List<Map> maps = await db.query(tableTodo, where: "created_at = ?", whereArgs: [dateDbFormat(date)]);
+      List<Map> maps = await db.query(
+        tableTodo,
+        where: "date(created_at) > ?",
+        whereArgs: [todayFormat],
+        orderBy: "datetime(created_at) desc",
+      );
 
       List<TodoModel> todos = maps.map<TodoModel>((todoMap) {
         return TodoModel.fromMap(todoMap);

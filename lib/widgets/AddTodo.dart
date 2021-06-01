@@ -15,7 +15,7 @@ class _AddTodoState extends  State<AddTodo> {
   TextEditingController controller = new TextEditingController();
 
   TodoModel createTodo(String desc) {
-    return new TodoModel(description: desc, completed: false, createdAt: dateDbFormat(DateTime.now()));
+    return new TodoModel(description: desc, completed: false, createdAt: DateTime.now());
   }
   @override
   Widget build(BuildContext context) {
