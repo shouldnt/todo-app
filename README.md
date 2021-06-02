@@ -4,12 +4,12 @@ My personal todo app.
 
 ## Features
 
-- [x] Add todo (with created at is today)
-- [x] Delete todo
-- [x] udpate todo completed
-- [ ] display todo by selected date
-- [x] create multiple todo with template
-- [ ] report completed percentage by date range
+- :white_check_mark: Add todo (with created at is today)
+- :white_check_mark: Delete todo
+- :white_check_mark: udpate todo completed
+- :ballot_box_with_check: display todo by selected date
+- :white_check_mark: create multiple todo with template
+- :ballot_box_with_check: report completed percentage by date range
 A few resources to get you started if this is your first Flutter project:
 
 
