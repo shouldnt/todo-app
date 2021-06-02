@@ -20,7 +20,7 @@ class TodoItem extends StatelessWidget {
           onChanged: onCheckBoxChange
         ),
         Expanded(child: Text(todo.description)),
-        IconButton(icon: Icon(Icons.delete_forever, color: Colors.red,), onPressed: onDeleteBtnPress)
+        ...(todo.completed ? [] : [IconButton(icon: Icon(Icons.delete_forever, color: Colors.red,), onPressed: onDeleteBtnPress)])
       ],
     );
   }

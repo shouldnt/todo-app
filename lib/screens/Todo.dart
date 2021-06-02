@@ -28,7 +28,6 @@ class _TodoState extends State<Todo> {
       todo.completed = value;
     });
     int result = await provider.update(todo);
-    log(result.toString());
   }
   deleteTodo(index) {
     TodoModel todo;
