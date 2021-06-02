@@ -3,11 +3,24 @@ import 'package:ktodo/DB/base_provider.dart';
 import 'package:ktodo/constants.dart';
 import 'package:ktodo/models/todo.dart';
 import 'package:ktodo/shared/helpers.dart';
+import 'package:sqflite/sqflite.dart';
 
 class TodoProvider extends BaseProvider {
   Future<TodoModel> create(TodoModel todo) async {
     todo.id = await this.db.insert(tableTodo, todo.toMap());
     return todo;
+  }
+
+  Future<List<TodoModel>> createTodos(List<TodoModel> todos) async {
+    Batch batch = db.batch();
+    for(int i = 0; i < todos.length; i++) {
+      batch.insert(tableTodo, todos[i].toMap());
+    }
+    var ids = await batch.commit();
+    for(int i = 0; i < todos.length; i++) {
+      todos[i].id = ids[i];
+    }
+    return todos;
   }
 
   Future<List<TodoModel>> getTodoByDate(DateTime date) async {

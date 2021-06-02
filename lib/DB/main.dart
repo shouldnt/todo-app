@@ -2,26 +2,24 @@ import 'dart:developer';
 
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-Future<Database> getDb () async {
-  return openDatabase(
-    // Set the path to the database. Note: Using the `join` function from the
-    // `path` package is best practice to ensure the path is correctly
-    // constructed for each platform.
-    join(await getDatabasesPath(), 'todo.db'),
-// When the database is first created, create a table to store dogs.
-    onCreate: (db, version) {
-      log('oncreate');
-// Run the CREATE TABLE statement on the database.
+
+import '../constants.dart';
+Future<Database> getDb() async {
+  String _path = join(await getDatabasesPath(), DB_NAME);
+  log(_path);
+  return await openDatabase(
+    _path,
+    onCreate: (db, int version) async {
       db.execute(
-        'CREATE TABLE templates(id INTEGER PRIMARY KEY, name TEXT, description TEXT, deleted INTEGER)',
+        'CREATE TABLE $tableTemplate(id INTEGER PRIMARY KEY, description TEXT, created_at TEXT)',
       );
       db.execute(
-        'CREATE TABLE todos(id INTEGER PRIMARY KEY,  description TEXT, completed INTEGER, created_at TExt)',
+        'CREATE TABLE $tableTodo(id INTEGER PRIMARY KEY,  description TEXT, completed INTEGER, created_at TEXT)',
       );
     },
-// Set the version. This executes the onCreate function and provides a
-// path to perform database upgrades and downgrades.
-    version: 1,
+    onOpen: (db) {
+    },
+    version: 1
   );
 }
 

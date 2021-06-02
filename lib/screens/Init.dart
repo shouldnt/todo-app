@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ktodo/Routes.dart';
 import 'package:ktodo/shared/app.dart';
-import 'package:ktodo/widgets/AddTemplateItemPopup.dart';
 
 import 'Template.dart';
 import 'Todo.dart';
@@ -37,9 +36,7 @@ class _InitState extends State<Init> {
         break;
       default:
         return {
-          "widget": Container(
-            child: Text('empty')
-          ),
+          "widget": Template(),
           "title": "Empty"
         };
     }

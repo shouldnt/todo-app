@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ktodo/DB/template_provider.dart';
+import 'package:ktodo/models/template.dart';
 import 'package:ktodo/models/todo.dart';
 import 'package:ktodo/shared/helpers.dart';
 
@@ -13,9 +15,19 @@ class AddTodo extends StatefulWidget {
 class _AddTodoState extends  State<AddTodo> {
   String desc = '';
   TextEditingController controller = new TextEditingController();
+  bool useTemplate = false;
+  String errorMessage;
 
   TodoModel createTodo(String desc) {
-    return new TodoModel(description: desc, completed: false, createdAt: DateTime.now());
+    return new TodoModel(description: desc, completed: false);
+  }
+  Future<List<TodoModel>> createTodosWithTemplate() async {
+    TemplateProvider templateProvider = new TemplateProvider();
+    List<TemplateModel> templates = await templateProvider.getTemplates();
+    if(templates.length == 0) {
+      return [];
+    }
+    return templates.map<TodoModel>((template) => TodoModel(description: template.description)).toList();
   }
   @override
   Widget build(BuildContext context) {
@@ -25,7 +37,7 @@ class _AddTodoState extends  State<AddTodo> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          TextField(
+          ...(useTemplate ? [] : [TextField(
             autofocus: true,
             controller: controller,
             onChanged: (value) {
@@ -33,7 +45,25 @@ class _AddTodoState extends  State<AddTodo> {
                 desc = value;
               });
             },
-          )
+          )]),
+          Row(
+            children: [
+              Checkbox(
+                checkColor: Colors.white,
+                fillColor: MaterialStateProperty.resolveWith(
+                    (states) => Colors.green
+                ),
+                value: useTemplate,
+                onChanged: (value) {
+                  setState(() {
+                    useTemplate = value;
+                  });
+                }
+              ),
+              Expanded(child: Text('Use Template')),
+            ],
+          ),
+          ...(errorMessage == null ? [] : [Text(errorMessage, style: TextStyle(color: Colors.red),)])
         ],
       ),
       actions: <Widget>[
@@ -61,8 +91,26 @@ class _AddTodoState extends  State<AddTodo> {
           ),
           child: InkWell(
             splashColor: Colors.blue, // splash color
-            onTap: desc.length == 0 ? null : () {
-              Navigator.pop<TodoModel>(context, createTodo(desc));
+            onTap: desc.length == 0 && !useTemplate ? null : () async {
+              List<TodoModel> todos = [];
+              if(useTemplate) {
+                todos = await createTodosWithTemplate();
+              } else {
+                todos = [createTodo(desc)];
+              }
+              if(todos.length == 0) {
+                setState(() {
+                  errorMessage = 'You should create at least 1 template item!';
+                  useTemplate = false;
+                });
+                Future.delayed(Duration(seconds: 3), () {
+                  setState(() {
+                    errorMessage = null;
+                  });
+                });
+                return;
+              }
+              Navigator.pop<List<TodoModel>>(context, todos);
             }, // button pressed
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

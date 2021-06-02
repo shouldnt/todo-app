@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ktodo/DB/template_provider.dart';
 import 'package:ktodo/models/template.dart';
-import 'package:ktodo/widgets/AddTemplateItemPopup.dart';
+import 'package:ktodo/widgets/AddTemplate.dart';
+import 'package:ktodo/widgets/ConfirmDeleteTemplateDialog.dart';
+import 'package:ktodo/widgets/TemplateItem.dart';
 
 class Template extends StatefulWidget {
 
@@ -11,31 +14,70 @@ class Template extends StatefulWidget {
 
 class _TemplateState extends State<Template> {
 
-  TemplateModel template = new TemplateModel(todoList: []);
+  List<TemplateModel> templates = [];
+  TemplateProvider provider = new TemplateProvider();
+
+  init() async {
+    templates = await provider.getTemplates();
+    setState(() { });
+  }
+  deleteTemplate(index) {
+    TemplateModel template;
+    setState(() {
+      template = templates.removeAt(index);
+    });
+    provider.delete(template.id);
+  }
+
+  @override
+  void initState() {
+    init();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    if(template.todoList.length == 0) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Icon(Icons.priority_high, color: Colors.grey, size: 80,),
-          Text('No Todo for today', textAlign: TextAlign.center,)
-        ]
-      );
-    }
-    return ListView.builder(itemBuilder: (BuildContext context, index) {
-      return Row(
-        children: [
-          Container(
-            width: 30,
-            child: Text('${index + 1}.', textAlign: TextAlign.right,),
-            padding: EdgeInsets.only(right: 10)
-          ),
-          Expanded(child: Text('${template.todoList[index]}'))
-        ]);
-    }, itemCount: template.todoList.length,);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Template'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () async {
+              TemplateModel template = await showDialog<TemplateModel>(context: context, builder: (context) {
+                return AddTemplate();
+              });
+              if(template == null) {
+                return;
+              }
+              template = await provider.create(template);
+              setState(() {
+                templates.insert(0, template);
+              });
+            }
+          )
+        ],
+      ),
+      body: ListView.builder(itemBuilder: (BuildContext context, index) {
+        TemplateModel template = templates[index];
+        return TemplateItem(
+          template,
+          onDeleteBtnPress: () async {
+            if(await showDialog<bool>(context: context, builder: (context) {
+              return ConfirmDeleteTemplate(template);
+            })) {
+              deleteTemplate(index);
+            }
+          },
+        );
+      }, itemCount: templates.length,),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 

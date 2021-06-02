@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:ktodo/DB/todo_provider.dart';
 import 'package:ktodo/models/template.dart';
 import 'package:ktodo/models/todo.dart';
-import 'package:ktodo/widgets/AddTemplateItemPopup.dart';
 import 'package:ktodo/widgets/AddTodo.dart';
 import 'package:ktodo/widgets/ConfirmDeleteTodoDialog.dart';
 import 'package:ktodo/widgets/TodoItem.dart';
@@ -21,7 +20,6 @@ class _TodoState extends State<Todo> {
   TodoProvider provider = new TodoProvider();
 
   init() async {
-    await provider.open();
     todos = await provider.getTodoByDate(DateTime.now());
     setState(() { });
   }
@@ -53,15 +51,16 @@ class _TodoState extends State<Todo> {
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () async {
-            TodoModel todo = await showDialog<TodoModel>(context: context, builder: (context) {
+            List<TodoModel> _todos = await showDialog<List<TodoModel>>(context: context, builder: (context) {
               return AddTodo();
             });
-            if(todo == null) {
+            if(_todos == null || _todos.length == 0) {
               return;
             }
-            todo = await provider.create(todo);
+            _todos = await provider.createTodos(_todos);
+            _todos.addAll(todos);
             setState(() {
-              todos.insert(0, todo);
+              todos = _todos;
             });
           }
           )
@@ -88,7 +87,6 @@ class _TodoState extends State<Todo> {
 
   @override
   void dispose() {
-    provider.close();
     super.dispose();
   }
 }

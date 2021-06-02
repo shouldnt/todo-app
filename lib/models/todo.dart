@@ -5,14 +5,14 @@ class TodoModel {
   String description;
   bool completed;
   DateTime createdAt;
-  TodoModel({@required this.description, this.completed, this.id, this.createdAt});
-  static TodoModel fromMap(map) {
-    return new TodoModel(
-      description: map["description"],
-      completed: map["completed"] == 0 ? false : true,
-      id: map["id"],
-      createdAt: DateTime.parse(map["created_at"])
-    );
+  TodoModel({@required this.description, this.completed = false, this.id}) {
+    this.createdAt = DateTime.now();
+  }
+  TodoModel.fromMap(map) {
+    description = map["description"];
+    completed = map["completed"] == 0 ? false : true;
+    id = map["id"];
+    createdAt = DateTime.parse(map["created_at"]);
   }
   toMap() {
     Map<String, dynamic> map = {

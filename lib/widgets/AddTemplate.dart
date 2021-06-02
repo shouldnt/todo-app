@@ -1,26 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ktodo/models/template.dart';
 
-class AddTemplateItemPopup extends StatefulWidget {
+class AddTemplate extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _AddTemplateItemPopupState();
+    return _AddTemplateState();
   }
 }
 
-class _AddTemplateItemPopupState extends  State<AddTemplateItemPopup> {
+class _AddTemplateState extends  State<AddTemplate> {
   String desc = '';
   TextEditingController controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Todo Description'),
+      title: const Text('Template Description'),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
             controller: controller,
+            autofocus: true,
             onChanged: (value) {
               setState(() {
                 desc = value;
@@ -55,7 +57,7 @@ class _AddTemplateItemPopupState extends  State<AddTemplateItemPopup> {
           child: InkWell(
             splashColor: Colors.blue, // splash color
             onTap: desc.length == 0 ? null : () {
-              Navigator.pop(context, desc);
+              Navigator.pop(context, TemplateModel(description: desc));
             }, // button pressed
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
