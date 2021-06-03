@@ -12,8 +12,8 @@ My personal todo app.
 - :ballot_box_with_check: report completed percentage by date range
 - :ballot_box_with_check: theme
 - :ballot_box_with_check: multi lang
-A few resources to get you started if this is your first Flutter project:
 
+###
 
 ## References
 
