@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:ktodo/models/template.dart';
 
 import '../constants.dart';

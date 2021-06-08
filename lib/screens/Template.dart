@@ -40,6 +40,7 @@ class _TemplateState extends State<Template> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text('Template'),
         actions: [
           IconButton(
@@ -59,19 +60,22 @@ class _TemplateState extends State<Template> {
           )
         ],
       ),
-      body: ListView.builder(itemBuilder: (BuildContext context, index) {
-        TemplateModel template = templates[index];
-        return TemplateItem(
-          template,
-          onDeleteBtnPress: () async {
-            if(await showDialog<bool>(context: context, builder: (context) {
-              return ConfirmDeleteTemplate(template);
-            })) {
-              deleteTemplate(index);
-            }
-          },
-        );
-      }, itemCount: templates.length,),
+      body: ListView.builder(
+        padding: EdgeInsets.all(15),
+        itemBuilder: (BuildContext context, index) {
+          TemplateModel template = templates[index];
+          return TemplateItem(
+            template,
+            onDeleteBtnPress: () async {
+              if(await showDialog<bool>(context: context, builder: (context) {
+                return ConfirmDeleteTemplate(template);
+              })) {
+                deleteTemplate(index);
+              }
+            },
+          );
+        }, itemCount: templates.length,
+      ),
     );
   }
 

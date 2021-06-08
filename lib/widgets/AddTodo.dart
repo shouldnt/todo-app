@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ktodo/DB/template_provider.dart';
 import 'package:ktodo/models/template.dart';
 import 'package:ktodo/models/todo.dart';
-import 'package:ktodo/shared/helpers.dart';
 
 class AddTodo extends StatefulWidget {
   @override

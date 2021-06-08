@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class TemplateModel {
   int id;
   String description;

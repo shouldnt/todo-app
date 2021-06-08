@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ktodo/Routes.dart';
+import 'package:ktodo/icons/remix.dart';
 import 'package:ktodo/shared/app.dart';
+import 'package:ktodo/widgets/BottomNav.dart';
 
 import 'Template.dart';
 import 'Todo.dart';
@@ -26,21 +27,18 @@ class _InitState extends State<Init> {
     super.initState();
   }
 
-  Map<String, dynamic> getView(index) {
-    switch(index) {
-      case 0:
-        return {
-          "widget": new Todo(),
-          "title": 'Todo'
-        };
-        break;
-      default:
-        return {
-          "widget": Template(),
-          "title": "Empty"
-        };
+  List<Map<String, dynamic>> views = [
+    {
+      "widget": new Todo(),
+      "icon": RemixIcons.listCheck2,
+      "title": "Todo"
+    },
+    {
+      "widget": new Template(),
+      "icon": RemixIcons.fileListLine,
+      "title": "Template"
     }
-  }
+  ];
   @override
   Widget build(BuildContext context) {
     if(!initDone) {
@@ -48,31 +46,19 @@ class _InitState extends State<Init> {
         color: Colors.green
       );
     }
-    Map<String, dynamic> view  = getView(currentIndex);
+    Map<String, dynamic> view  = views[currentIndex];
     return SafeArea(child: Scaffold(
       body: Container(
-        child: view["widget"]
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_outlined),
-            label: 'Todo',
-            backgroundColor: Colors.red,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list_alt),
-            label: 'Template',
-            backgroundColor: Colors.green,
-          ),
-        ],
-        currentIndex: currentIndex,
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-
+        child: Column(
+          children: [
+            Expanded(child: view["widget"]),
+            BottomNav(icons: views.map<IconData>((e) => e["icon"]).toList(), onChange: (index) {
+              setState(() {
+                this.currentIndex = index;
+              });
+            },),
+          ],
+        )
       ),
     ));
   }
