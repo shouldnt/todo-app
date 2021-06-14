@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:ktodo/Providers/Theme.dart';
+import 'package:ktodo/Routes.dart';
 import 'package:ktodo/icons/remix.dart';
 import 'package:ktodo/shared/app.dart';
+import 'package:ktodo/shared/widgets/Drawer.dart';
 import 'package:ktodo/widgets/BottomNav.dart';
+import 'package:provider/provider.dart';
 
 import 'Template.dart';
 import 'Todo.dart';
@@ -19,12 +23,10 @@ class _InitState extends State<Init> {
   int currentIndex = 0;
   @override
   initState() {
-    app.init().then((value) {
-      setState(() {
-        initDone = true;
-      });
-    });
     super.initState();
+    app.init().then((value) {
+      Navigator.pushReplacementNamed(context, RouteNames.todo);
+    });
   }
 
   List<Map<String, dynamic>> views = [
@@ -41,6 +43,7 @@ class _InitState extends State<Init> {
   ];
   @override
   Widget build(BuildContext context) {
+    ThemeModel theme = Provider.of<ThemeModel>(context);
     if(!initDone) {
       return Container(
         color: Colors.green
@@ -48,6 +51,8 @@ class _InitState extends State<Init> {
     }
     Map<String, dynamic> view  = views[currentIndex];
     return SafeArea(child: Scaffold(
+      drawer: buildDrawer(context),
+      appBar: AppBar(),
       body: Container(
         child: Column(
           children: [

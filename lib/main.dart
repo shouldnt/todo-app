@@ -25,22 +25,17 @@ class MyApp extends StatelessWidget {
         builder: (context, model, __) {
           return MaterialApp(
             title: 'KTodo',
-            darkTheme: ThemeData.dark(),
             theme: ThemeData(
-              textTheme: Theme.of(context).textTheme.apply(
-                bodyColor: model.textColor,
-                displayColor: model.textColor
-              ),
+              pageTransitionsTheme: PageTransitionsTheme(),
               primaryColor: model.primaryColor,
-              accentColor: model.accentColor,
-              appBarTheme: AppBarTheme(
-                backgroundColor: model.backgroundColor
-              ),
+              colorScheme: model.colorScheme,
+              shadowColor: Color.fromARGB(30, 0, 0, 0),
               scaffoldBackgroundColor: model.backgroundColor,
-              iconTheme: IconThemeData(
-                color: model.textColor
-              ),
-              shadowColor: Color.fromARGB(30, 0, 0, 0)
+              appBarTheme: new AppBarTheme(
+                backgroundColor: model.primaryColor,
+                elevation: 0,
+                foregroundColor: model.backgroundColor
+              )
             ),
             initialRoute: RouteNames.home,
             routes: routes,

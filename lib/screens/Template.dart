@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ktodo/DB/template_provider.dart';
+import 'package:ktodo/Providers/Theme.dart';
+import 'package:ktodo/Routes.dart';
 import 'package:ktodo/models/template.dart';
+import 'package:ktodo/shared/widgets/Drawer.dart';
 import 'package:ktodo/widgets/AddTemplate.dart';
 import 'package:ktodo/widgets/ConfirmDeleteTemplateDialog.dart';
 import 'package:ktodo/widgets/TemplateItem.dart';
+import 'package:provider/provider.dart';
 
 class Template extends StatefulWidget {
 
@@ -38,11 +42,15 @@ class _TemplateState extends State<Template> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeModel theme = Provider.of<ThemeModel>(context);
     return Scaffold(
+      drawer: buildDrawer(context),
       appBar: AppBar(
-        elevation: 0,
         title: Text('Template'),
         actions: [
+          Row(
+            children: [Text('${templates.length}')],
+          ),
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () async {
@@ -57,7 +65,7 @@ class _TemplateState extends State<Template> {
                 templates.insert(0, template);
               });
             }
-          )
+          ),
         ],
       ),
       body: ListView.builder(

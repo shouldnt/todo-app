@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ktodo/DB/template_provider.dart';
+import 'package:ktodo/constants.dart';
 import 'package:ktodo/models/template.dart';
 import 'package:ktodo/models/todo.dart';
+import 'package:ktodo/widgets/PrioritySelect.dart';
 
 class AddTodo extends StatefulWidget {
+  final DateTime selectedDate;
+  AddTodo(this.selectedDate);
   @override
   State<StatefulWidget> createState() {
     return _AddTodoState();
@@ -16,9 +20,10 @@ class _AddTodoState extends  State<AddTodo> {
   TextEditingController controller = new TextEditingController();
   bool useTemplate = false;
   String errorMessage;
+  Priorities priority = Priorities.medium;
 
   TodoModel createTodo(String desc) {
-    return new TodoModel(description: desc, completed: false);
+    return new TodoModel(description: desc, completed: false, createdAt: widget.selectedDate, priority:  this.priority);
   }
   Future<List<TodoModel>> createTodosWithTemplate() async {
     TemplateProvider templateProvider = new TemplateProvider();
@@ -26,7 +31,11 @@ class _AddTodoState extends  State<AddTodo> {
     if(templates.length == 0) {
       return [];
     }
-    return templates.map<TodoModel>((template) => TodoModel(description: template.description)).toList();
+    return templates.map<TodoModel>((template) => TodoModel(
+        description: template.description,
+        createdAt: widget.selectedDate,
+        priority: template.priority
+    )).toList();
   }
   @override
   Widget build(BuildContext context) {
@@ -44,7 +53,11 @@ class _AddTodoState extends  State<AddTodo> {
                 desc = value;
               });
             },
-          )]),
+          ), PrioritySelect(priority: priority, onChange: (priority) {
+            setState(() {
+              this.priority = priority;
+            });
+    })]),
           Row(
             children: [
               Checkbox(

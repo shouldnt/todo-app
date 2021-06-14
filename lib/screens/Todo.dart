@@ -5,6 +5,7 @@ import 'package:ktodo/DB/todo_provider.dart';
 import 'package:ktodo/Providers/Theme.dart';
 import 'package:ktodo/icons/remix.dart';
 import 'package:ktodo/models/todo.dart';
+import 'package:ktodo/shared/widgets/Drawer.dart';
 import 'package:ktodo/widgets/AddTodo.dart';
 import 'package:ktodo/widgets/ConfirmDeleteTodoDialog.dart';
 import 'package:ktodo/widgets/TodoItem.dart';
@@ -86,14 +87,14 @@ class _TodoState extends State<Todo> {
   Widget build(BuildContext context) {
     ThemeModel theme = Provider.of<ThemeModel>(context);
     return Scaffold(
+      drawer: buildDrawer(context),
       appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(RemixIcons.menuLine, color: theme.textColor),
-          onPressed: () {
-            theme.apply(set2);
-          },
-        ),
+        // leading: IconButton(
+        //   icon: Icon(RemixIcons.menuLine, color: theme.textColor),
+        //   onPressed: () {
+        //     theme.apply(set2);
+        //   },
+        // ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -122,9 +123,9 @@ class _TodoState extends State<Todo> {
                 List<TodoModel> _todos = await showDialog<List<TodoModel>>(
                     context: context,
                     builder: (context) {
-                      return AddTodo();
+                      return AddTodo(selectedDate);
                     });
-                if (_todos != null && _todos.length == 0) {
+                if (_todos != null && _todos.length > 0) {
                   addTodos(_todos);
                 }
               }),

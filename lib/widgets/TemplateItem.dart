@@ -4,6 +4,8 @@ import 'package:ktodo/Providers/Theme.dart';
 import 'package:ktodo/models/template.dart';
 import 'package:provider/provider.dart';
 
+import 'Priority.dart';
+
 class TemplateItem extends StatelessWidget {
   final TemplateModel template;
   final Function() onDeleteBtnPress;
@@ -14,12 +16,6 @@ class TemplateItem extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeModel theme = Provider.of<ThemeModel>(context);
     return Container(
-        padding: EdgeInsets.only(
-          top: 10,
-          bottom: 10,
-          right: 0,
-          left: 15
-        ),
         margin: EdgeInsets.only(bottom: 15),
         decoration: ShapeDecoration.fromBoxDecoration(
             BoxDecoration(
@@ -33,15 +29,28 @@ class TemplateItem extends StatelessWidget {
                 )]
             )
         ),
-        child: Row(
+        child: Stack(
           children: [
-            Expanded(child: Text(template.description)),
-            IconButton(
-                icon: Icon(
-                  Icons.delete_forever,
-                  color: Colors.red,
-                ),
-                onPressed: onDeleteBtnPress)
+            Container(
+              padding: EdgeInsets.only(
+                  top: 10,
+                  bottom: 10,
+                  right: 0,
+                  left: 15
+              ),
+              child: Row(
+                children: [
+                  Expanded(child: Text(template.description)),
+                  IconButton(
+                      icon: Icon(
+                        Icons.delete_forever,
+                        color: Colors.red,
+                      ),
+                      onPressed: onDeleteBtnPress)
+                ],
+              ),
+            ),
+            Positioned(top: -14, left: -14, child: Priority(template.priority))
           ],
         )
     );
