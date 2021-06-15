@@ -55,7 +55,7 @@ class _AddBookState extends State<AddBook> {
                 ? null
                 : () async {
                     ReadingBookModel book =
-                        new ReadingBookModel(name: bookName);
+                        new ReadingBookModel(name: bookName, readCount: 0, markPage: 0);
                     Navigator.pop<ReadingBookModel>(context, book);
                     return;
                   },

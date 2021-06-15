@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import '../constants.dart';
 
 String dateDbFormat(DateTime date) {
@@ -29,4 +31,8 @@ Priorities numberToPriorityEnum(int value) {
       return Priorities.medium;
     }
   }
+}
+
+FilteringTextInputFormatter inputNumberOnlyFormatter() {
+  return FilteringTextInputFormatter.allow(RegExp(r'[0-9]'));
 }

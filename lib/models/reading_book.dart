@@ -6,7 +6,7 @@ class ReadingBookModel {
   DateTime createdAt;
   int markPage;
   int readCount;
-  ReadingBookModel({@required this.name, this.createdAt, this.id, this.readCount}) {
+  ReadingBookModel({@required this.name, this.createdAt, this.id, this.readCount, this.markPage}) {
     this.createdAt = this.createdAt ?? DateTime.now();
   }
   ReadingBookModel.fromMap(map) {
@@ -27,5 +27,15 @@ class ReadingBookModel {
       map["id"] = id;
     }
     return map;
+  }
+
+  clone() {
+    return new ReadingBookModel(
+        id: this.id,
+        name: this.name,
+        createdAt: this.createdAt,
+        markPage: this.markPage,
+        readCount: this.readCount
+    );
   }
 }

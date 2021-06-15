@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ktodo/Providers/Theme.dart';
 import 'package:ktodo/Routes.dart';
@@ -13,7 +14,7 @@ class MenuItem {
   Widget toWidget(context, ThemeModel theme) {
     bool isActive = ModalRoute.of(context).settings.name == routeName;
     return GestureDetector(
-      onTap: () {
+      onTap: isActive ? null : () {
         Navigator.pushReplacementNamed(context, routeName);
       },
       child: Ink(
@@ -49,13 +50,8 @@ Drawer buildDrawer(BuildContext context) {
   ThemeModel theme = Provider.of<ThemeModel>(context);
   return Drawer(
     child: Column(
-      children: [
-        Expanded(child: ListView.builder(
-            itemBuilder: (context, index) {
-              return _menuItems[index].toWidget(context, theme);
-            },
-            itemCount: _menuItems.length))
-      ],
+      children: _menuItems.map((menu) => menu.toWidget(context, theme)).toList(),
+      mainAxisAlignment: MainAxisAlignment.center,
     ),
   );
 }

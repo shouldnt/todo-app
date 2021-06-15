@@ -89,7 +89,16 @@ class _ReadingBookState extends State<ReadingBook> {
                 itemBuilder: (BuildContext context, index) {
                   ReadingBookModel book = books[index];
                   // todo update book item
-                  return BookItem(book);
+                  return BookItem(book: book, onChange: (book) {
+                    setState(() {
+                      books[index] = book;
+                    });
+                  }, onDelete: () async {
+                    await ReadingBookProvider().delete(book.id);
+                    setState(() => {
+                      this.books.removeAt(index)
+                    });
+                  });
                 },
                 itemCount: books.length,
               )),

@@ -38,6 +38,7 @@ class _TodoState extends State<Todo> {
     todos = await provider.getTodoByDate(date);
     setState(() {
       selectedDate = date;
+      countCompleted();
     });
   }
 
