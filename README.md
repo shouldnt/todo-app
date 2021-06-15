@@ -12,7 +12,10 @@ My personal todo app.
 - :ballot_box_with_check: report completed percentage by date range
 - :ballot_box_with_check: theme
 - :ballot_box_with_check: multi lang
-- :ballot_box_with_check: Bookmark reading book
+- :white_check_mark: Create reading book
+- :white_check_mark: Delete reading book
+- :white_check_mark: Bookmark reading book
+- :white_check_mark: Update Read times
 
 ###
 
