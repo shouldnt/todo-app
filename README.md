@@ -15,7 +15,7 @@ My personal todo app.
 - :white_check_mark: Create reading book
 - :white_check_mark: Delete reading book
 - :white_check_mark: Bookmark reading book
-- :white_check_mark: Update Read times
+- :white_check_mark: Update Reading book Read times
 
 ###
 
